@@ -1,0 +1,16 @@
+{
+    "cSpell.words": [
+        "pinaryslib",
+        "cullface",
+        "examplemod",
+        "modid",
+        "modloading",
+        "sourceblock"
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "cSpell.ignoreWords": [
+        "model",
+        "pinarys",
+        "provider"
+    ]
+}

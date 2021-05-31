@@ -1,0 +1,36 @@
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# gradle
+build
+.gradle
+
+# other
+eclipse
+run
+
+# Files from Forge MDK
+forge*changelog.txt
+
+#Files used for testing
+src/main/resources/assets
+
+src/main/java/net/Pinary_Pi/gear/util/Renderer.java
+
+src/main/java/net/Pinary_Pi/pinaryslib/data
+
+src/main/java/net/Pinary_Pi/pinaryslib/setup
+
+src/generated/resources/assets
