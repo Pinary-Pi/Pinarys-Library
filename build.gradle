@@ -173,8 +173,7 @@ publishing {
             url = uri("https://maven.pkg.github.com/pinary-pi/pinarys-library")
             credentials {
                 username = property('gpr.user')
-    password = property('gpr.token')// username = project.findProperty('gpr.username') ?: System.getenv("USERNAME")
-                // password = project.findProperty('gpr.token') ?: System.getenv("TOKEN")
+                password = property('gpr.token')
             }
         }
     }
