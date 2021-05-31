@@ -1,8 +1,5 @@
 package net.Pinary_Pi.pinaryslib;
 
-import net.Pinary_Pi.pinaryslib.setup.Registration;
-import net.Pinary_Pi.gear.util.ModResourceLocation;
-import net.Pinary_Pi.gear.util.Renderer;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
@@ -10,7 +7,6 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
@@ -30,9 +26,6 @@ public class pinaryslib
     private static final Logger LOGGER = LogManager.getLogger();
 
     public pinaryslib() {
-        Registration.register();
-
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
 
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -59,25 +52,12 @@ public class pinaryslib
         InterModComms.sendTo("examplemod", "helloworld", () -> { LOGGER.info("Hello world from the MDK"); return "Hello world";});
     }
 
-    public static ModResourceLocation getId(String path) {
-        if (path.contains(":")) {
-            throw new IllegalArgumentException("path contains namespace");
-        }
-        return new ModResourceLocation(path);
-    }
-
     private void processIMC(final InterModProcessEvent event)
     {
         // some example code to receive and process InterModComms from other mods
         LOGGER.info("Got IMC {}", event.getIMCStream().
                 map(m->m.getMessageSupplier().get()).
                 collect(Collectors.toList()));
-    }
-
-    private void clientSetup(final FMLClientSetupEvent event) {
-        event.enqueueWork(() -> {
-            Renderer.registerRenderLayers();
-        });
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

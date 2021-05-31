@@ -7,7 +7,7 @@
         "modloading",
         "sourceblock"
     ],
-    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.configuration.updateBuildConfiguration": "disabled",
     "cSpell.ignoreWords": [
         "model",
         "pinarys",

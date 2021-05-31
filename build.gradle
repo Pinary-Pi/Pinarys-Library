@@ -162,14 +162,19 @@ jar.finalizedBy('reobfJar')
 //publish.dependsOn('reobfJar')
 
 publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact jar
-        }
-    }
     repositories {
         maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/pinary-pi/pinarys-lib")
+            credentials {
+                username = project.findProperty('gpr.username')
+                password = project.findProperty('gpr.token')
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
         }
     }
 }

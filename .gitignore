@@ -27,7 +27,7 @@ forge*changelog.txt
 #Files used for testing
 src/main/resources/assets
 
-src/main/java/net/Pinary_Pi/gear/util/Renderer.java
+src/main/java/net/Pinary_Pi/gear/
 
 src/main/java/net/Pinary_Pi/pinaryslib/data
 
