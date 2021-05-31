@@ -7,10 +7,16 @@ buildscript {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
     }
 }
+
+plugins {
+    id 'maven'
+    id 'maven-publish'
+}
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
+// apply plugin: 'maven-publish'
+// apply plugin: 'maven'
 
 version = '1.0'
 group = 'net.Pinary_Pi.pinaryslib' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -164,11 +170,11 @@ jar.finalizedBy('reobfJar')
 publishing {
     repositories {
         maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/pinary-pi/pinarys-lib")
+            url = uri("https://maven.pkg.github.com/pinary-pi/pinarys-library")
             credentials {
-                username = project.findProperty('gpr.username')
-                password = project.findProperty('gpr.token')
+                username = property('gpr.user')
+    password = property('gpr.token')// username = project.findProperty('gpr.username') ?: System.getenv("USERNAME")
+                // password = project.findProperty('gpr.token') ?: System.getenv("TOKEN")
             }
         }
     }
