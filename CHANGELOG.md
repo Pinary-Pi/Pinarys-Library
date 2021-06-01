@@ -39,3 +39,6 @@ public class ModModelProvider extends PinarysModelProvider {
     }
 }
 ```
+## v1.0.2
+### Bug Fixes
+Now works with Java 8
