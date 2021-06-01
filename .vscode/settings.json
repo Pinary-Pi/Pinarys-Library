@@ -1,11 +1,14 @@
 {
     "cSpell.words": [
-        "pinaryslib",
+        "creds",
         "cullface",
+        "deobf",
         "examplemod",
         "modid",
         "modloading",
-        "sourceblock"
+        "pinaryslib",
+        "sourceblock",
+        "tokenread"
     ],
     "java.configuration.updateBuildConfiguration": "disabled",
     "cSpell.ignoreWords": [

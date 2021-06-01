@@ -18,7 +18,7 @@ apply plugin: 'eclipse'
 // apply plugin: 'maven-publish'
 // apply plugin: 'maven'
 
-version = '1.0'
+version = '1.0.1'
 group = 'net.Pinary_Pi.pinaryslib' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'pinaryslib'
 
@@ -152,13 +152,28 @@ jar {
         attributes([
             "Specification-Title": "pinaryslib",
             "Specification-Vendor": "pinaryslibsareus",
-            "Specification-Version": "1.0", // We are version 1 of ourselves
+            "Specification-Version": "1.0.1", // We are version 1 of ourselves
             "Implementation-Title": project.name,
             "Implementation-Version": "${version}",
             "Implementation-Vendor" :"pinaryslibsareus",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.getDestinationDir()
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
 }
 
 // Example configuration to allow publishing using the maven-publish task
@@ -181,6 +196,8 @@ publishing {
     publications {
         gpr(MavenPublication) {
             from(components.java)
+            artifact sourcesJar
+            artifact javadocJar
         }
     }
 }
