@@ -18,13 +18,12 @@ apply plugin: 'eclipse'
 // apply plugin: 'maven-publish'
 // apply plugin: 'maven'
 
-version = '1.0.1'
+version = '1.0.2'
 group = 'net.Pinary_Pi.pinaryslib' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'pinaryslib'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '8'
 
-println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
     // The mappings can be changed at any time, and must be in the following format.
     // Channel:   Version:
@@ -152,7 +151,7 @@ jar {
         attributes([
             "Specification-Title": "pinaryslib",
             "Specification-Vendor": "pinaryslibsareus",
-            "Specification-Version": "1.0.1", // We are version 1 of ourselves
+            "Specification-Version": "1.0.2", // We are version 1 of ourselves
             "Implementation-Title": project.name,
             "Implementation-Version": "${version}",
             "Implementation-Vendor" :"pinaryslibsareus",
