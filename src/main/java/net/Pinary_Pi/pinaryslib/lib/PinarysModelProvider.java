@@ -99,14 +99,14 @@ public abstract class PinarysModelProvider implements IDataProvider {
                         modid + ":block/" + baseName + "_layer_block_base", name);
                 JsonElement jsonElement = gson.toJsonTree(modelBlock);
 
-                innerJsonObject.addProperty("overlay" + xString, texture);
+                innerJsonObject.addProperty("overlay" + xString, modid + ":block/" + texture);
 
                 x++;
 
                 if (x == textures.size()) {
 
-                    innerJsonObject.addProperty("sourceblock", textures.get(0));
-                    innerJsonObject.addProperty("particle", particle);
+                    innerJsonObject.addProperty("sourceblock", modid + ":block/" + textures.get(0));
+                    innerJsonObject.addProperty("particle", modid + ":block/" + particle);
 
                     jsonElement.getAsJsonObject().add("textures", innerJsonObject);
 
@@ -148,6 +148,16 @@ public abstract class PinarysModelProvider implements IDataProvider {
     @Override
     public void act(DirectoryCache cache) throws IOException {
         saveModels(registerModels(), cache);
+    }
+
+    public List<String> textures(String ... textures) {
+        List<String> texturesList = new ArrayList<>();
+
+        for (String texture : textures) {
+            texturesList.add(texture);
+        }
+
+        return texturesList;
     }
 }
 
