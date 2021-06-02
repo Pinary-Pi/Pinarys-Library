@@ -1,9 +1,7 @@
 package net.Pinary_Pi.pinaryslib.lib;
 
 public class PinarysGeneratorHelper {
-    PinarysGeneratorHelper() {
-
-    }
+    PinarysGeneratorHelper() {}
 
     public static String intToLetters(int layerCount) {
         String layerCountName = "";
