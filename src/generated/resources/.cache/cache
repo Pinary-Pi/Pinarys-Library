@@ -1,2 +1,6 @@
 5f837ebf7e9f4091cc2f85cd1c6f6c04d1e11e44 assets/pinaryslib/models/block/c_layer_block_base.json
+cd9a7892823d9028abb6fb3ea281a244016e0ac8 assets/pinaryslib/models/block/c_layered_slab.json
+91a9032261bbdf5b93ddb00fb94530cb00f1b93d assets/pinaryslib/models/block/c_layered_slab_top.json
 4361814b832724cb79212d70e96dd84ca6fa20d5 assets/pinaryslib/models/block/test_block.json
+8b7f6ac6b5155dea9e1445c22468dda6ce23b83a assets/pinaryslib/models/block/test_slab.json
+0b5532f4f16d19222b8b4fa86d3325a69cd10a7a assets/pinaryslib/models/block/test_slab_top.json

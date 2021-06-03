@@ -119,6 +119,105 @@ public abstract class PinarysModelProvider implements IDataProvider {
         return jsonElements;
     }
 
+    public List<JsonElement> simpleLayeredSlab(String name, List<String> textures, String modid, String particle) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+
+        List<JsonElement> jsonElements = new ArrayList<>();
+
+        Integer[] fromTop = {0, 8, 0};
+        Integer[] toTop = {16, 16, 16};
+
+        Integer[] fromBottom = {0, 0, 0};
+        Integer[] toBottom = {16, 8, 16};
+
+        String baseName = PinarysGeneratorHelper.intToLetters(textures.size());
+
+        List<Elements> elementsTop = new ArrayList<>();
+        List<Elements> elementsBottom = new ArrayList<>();
+
+        Integer x = 0;
+
+        if (blockBases.get(baseName + "layer_slab") == null) {
+            for (@SuppressWarnings("unused")
+            String texture : textures) {
+                if (x == 0) {
+                    Side sourceBlock = new Side("#sourceblock");
+
+                    Faces faces = new Faces(sourceBlock);
+
+                    elementsTop.add(new Elements(fromTop, toTop, faces));
+                    elementsBottom.add(new Elements(fromBottom, toBottom, faces));
+
+                    x++;
+                } else {
+                    String xString = PinarysGeneratorHelper.intToLetters(x);
+
+                    Side overlay = new Side("#overlay" + xString);
+
+                    Faces faces = new Faces(overlay);
+
+                    elementsTop.add(new Elements(fromTop, toTop, faces));
+                    elementsBottom.add(new Elements(fromBottom, toBottom, faces));
+
+                    x++;
+                }
+            }
+
+            BlockModel slabTop = new BlockModel("block/block", elementsTop, baseName + "_layered_slab_top");
+            BlockModel slabBottom = new BlockModel("block/block", elementsBottom, baseName + "_layered_slab");
+
+            JsonElement slabTopElement = gson.toJsonTree(slabTop);
+            JsonElement slabBottomElement = gson.toJsonTree(slabBottom);
+
+            jsonElements.add(slabTopElement);
+            jsonElements.add(slabBottomElement);
+
+            blockBases.addProperty(baseName + "layer_slab", true);
+
+            System.out.println("Made Slab Bases");
+        } else {
+            jsonElements.add(null);
+
+            System.out.println("Slab Bases already made");
+        }
+
+        x = 0;
+
+        JsonObject innerTexturesJsonObject = new JsonObject();
+
+        for (String texture : textures) {
+            if (x == 0) {
+                x++;
+            } else {
+                String xString = PinarysGeneratorHelper.intToLetters(x);
+
+                BlockModel slabTopModel = new BlockModel(modid + ":block/" + baseName + "_layered_slab_top", name + "_top");
+                BlockModel slabBottomModel = new BlockModel(modid + ":block/" + baseName + "_layered_slab", name);
+
+                JsonElement slabTopModelElement = gson.toJsonTree(slabTopModel);
+                JsonElement slabBottomModelElement = gson.toJsonTree(slabBottomModel);
+
+                innerTexturesJsonObject.addProperty("overlay" + xString, modid + ":block/" + texture);
+
+                x++;
+
+                if (x == textures.size()) {
+                    innerTexturesJsonObject.addProperty("sourceblock", modid + ":block/" + textures.get(0));
+                    innerTexturesJsonObject.addProperty("particle", modid + ":block/" + particle);
+
+                    slabTopModelElement.getAsJsonObject().add("textures", innerTexturesJsonObject);
+                    slabBottomModelElement.getAsJsonObject().add("textures", innerTexturesJsonObject);
+
+                    jsonElements.add(slabTopModelElement);
+                    jsonElements.add(slabBottomModelElement);
+
+                    System.out.println("Slab Models Made");
+                }
+            }
+        }
+        return jsonElements;
+    }
+
     @Override
     public String getName() {
         return "Pinary's Block Models: " + modid;
