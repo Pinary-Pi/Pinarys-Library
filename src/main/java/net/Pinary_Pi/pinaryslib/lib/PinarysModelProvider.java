@@ -35,8 +35,6 @@ public abstract class PinarysModelProvider implements IDataProvider {
     private JsonObject blockBases = new JsonObject();
 
     public List<JsonElement> simpleLayeredBlock(String name, List<String> textures, String modid, String particle) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-
         List<JsonElement> jsonElements = new ArrayList<>();
 
         List<Elements> elements = new ArrayList<>();
@@ -120,8 +118,6 @@ public abstract class PinarysModelProvider implements IDataProvider {
     }
 
     public List<JsonElement> simpleLayeredSlab(String name, List<String> textures, String modid, String particle) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-
         List<JsonElement> jsonElements = new ArrayList<>();
 
         Integer[] fromTop = {0, 8, 0};
@@ -212,6 +208,134 @@ public abstract class PinarysModelProvider implements IDataProvider {
                     jsonElements.add(slabBottomModelElement);
 
                     System.out.println("Slab Models Made");
+                }
+            }
+        }
+        return jsonElements;
+    }
+
+    public List<JsonElement> simpleLayeredStairs(String name, List<String> textures, String modid, String particle) {
+        List<JsonElement> jsonElements = new ArrayList<>();
+
+        // Stairs elements' from and to
+        Integer[] stairsElementOneFrom = {0, 0, 0};
+        Integer[] stairsElementOneTo = {16, 8, 16};
+        Integer[] stairsElementTwoFrom = {8, 8, 0};
+        Integer[] stairsElementTwoTo = {16, 16, 16};
+        
+        // Inner Stairs elements' from and to
+        Integer[] innerStairsElementOneFrom = {0, 0, 0};
+        Integer[] innerStairsElementOneTo = {16, 8, 16};
+        Integer[] innerStairsElementTwoFrom = {8, 8, 0};
+        Integer[] innerStairsElementTwoTo = {16, 16, 16};
+        Integer[] innerStairsElementThreeFrom = {0, 8, 8};
+        Integer[] innerStairsElementThreeTo = {8, 16, 16};
+
+        // Outer Stairs elements' from and to
+        Integer[] outerStairsElementOneFrom = {0, 0, 0};
+        Integer[] outerStairsElementOneTo = {16, 8, 16};
+        Integer[] outerStairsElementTwoFrom = {8, 8, 8};
+        Integer[] outerStairsElementTwoTo = {16, 16, 16};
+
+        String baseName = PinarysGeneratorHelper.intToLetters(textures.size());
+
+        List<Elements> elementsStairs = new ArrayList<>();
+        List<Elements> elementsInnerStairs = new ArrayList<>();
+        List<Elements> elementsOuterStairs = new ArrayList<>();
+
+        Integer x = 0;
+
+        if (blockBases.get(baseName + "layer_stair") == null) {
+            for (@SuppressWarnings("unused")
+            String texture : textures) {
+                if (x == 0) {
+                    Side side = new Side("#sourceblock");
+
+                    Faces sourceblock = new Faces(side);
+
+                    elementsStairs.add(new Elements(stairsElementOneFrom, stairsElementOneTo, sourceblock));
+                    elementsStairs.add(new Elements(stairsElementTwoFrom, stairsElementTwoTo, sourceblock));
+
+                    elementsInnerStairs.add(new Elements(innerStairsElementOneFrom, innerStairsElementOneTo, sourceblock));
+                    elementsInnerStairs.add(new Elements(innerStairsElementTwoFrom, innerStairsElementTwoTo, sourceblock));
+                    elementsInnerStairs.add(new Elements(innerStairsElementThreeFrom, innerStairsElementThreeTo, sourceblock));
+
+                    elementsOuterStairs.add(new Elements(outerStairsElementOneFrom, outerStairsElementOneTo, sourceblock));
+                    elementsOuterStairs.add(new Elements(outerStairsElementTwoFrom, outerStairsElementTwoTo, sourceblock));
+
+                    x++;
+                } else {
+                    String xString = PinarysGeneratorHelper.intToLetters(x);
+
+                    Side side = new Side("#overlay" + xString);
+
+                    Faces overlay = new Faces(side);
+
+                    elementsStairs.add(new Elements(stairsElementOneFrom, stairsElementOneTo, overlay));
+                    elementsStairs.add(new Elements(stairsElementTwoFrom, stairsElementTwoTo, overlay));
+
+                    elementsInnerStairs.add(new Elements(innerStairsElementOneFrom, innerStairsElementOneTo, overlay));
+                    elementsInnerStairs.add(new Elements(innerStairsElementTwoFrom, innerStairsElementTwoTo, overlay));
+                    elementsInnerStairs.add(new Elements(innerStairsElementThreeFrom, innerStairsElementThreeTo, overlay));
+
+                    elementsOuterStairs.add(new Elements(outerStairsElementOneFrom, outerStairsElementOneTo, overlay));
+                    elementsOuterStairs.add(new Elements(outerStairsElementTwoFrom, outerStairsElementTwoTo, overlay));
+
+                    x++;
+                }
+            }
+            BlockModel stairsBase = new BlockModel("minecraft:block/stairs", elementsStairs, baseName + "_layered_stairs");
+            BlockModel innerStairsBase = new BlockModel("block/block", elementsInnerStairs, baseName + "_layered_inner_stairs");
+            BlockModel outerStairsBase = new BlockModel("block/block", elementsOuterStairs, baseName + "_layered_outer_stairs");
+
+            JsonElement stairsElement = gson.toJsonTree(stairsBase);
+            JsonElement innerStairsElement = gson.toJsonTree(innerStairsBase);
+            JsonElement outerStairsElement = gson.toJsonTree(outerStairsBase);
+
+            jsonElements.add(stairsElement);
+            jsonElements.add(innerStairsElement);
+            jsonElements.add(outerStairsElement);
+
+            System.out.println("Made Stairs Bases");
+        } else {
+            jsonElements.add(null);
+
+            System.out.println("Stairs Bases were already made");
+        }
+        x = 0;
+
+        JsonObject innerJsonTextures = new JsonObject();
+        for (String texture : textures) {
+            if (x == 0) {
+                x++;
+            } else {
+                String xString = PinarysGeneratorHelper.intToLetters(x);
+
+                BlockModel stairsModel = new BlockModel(modid + ":block/" + baseName + "_layered_stairs", name);
+                BlockModel innerStairsModel = new BlockModel(modid + ":block/" + baseName + "_layered_inner_stairs", name + "_inner");
+                BlockModel outerStairsModel = new BlockModel(modid + ":block/" + baseName + "_layered_outer_stairs", name + "_outer");
+
+                JsonElement stairsElement = gson.toJsonTree(stairsModel);
+                JsonElement innerStairsElement = gson.toJsonTree(innerStairsModel);
+                JsonElement outerStairsElement = gson.toJsonTree(outerStairsModel);
+
+                innerJsonTextures.addProperty("overlay" + xString, modid + ":block/" + texture);
+
+                x++;
+
+                if (x == textures.size()) {
+                    innerJsonTextures.addProperty("sourceblock", modid + ":block/" + textures.get(0));
+                    innerJsonTextures.addProperty("particle", modid + ":block/" + particle);
+
+                    stairsElement.getAsJsonObject().add("textures", innerJsonTextures);
+                    innerStairsElement.getAsJsonObject().add("textures", innerJsonTextures);
+                    outerStairsElement.getAsJsonObject().add("textures", innerJsonTextures);
+
+                    jsonElements.add(stairsElement);
+                    jsonElements.add(innerStairsElement);
+                    jsonElements.add(outerStairsElement);
+
+                    System.out.println("Made stair models");
                 }
             }
         }

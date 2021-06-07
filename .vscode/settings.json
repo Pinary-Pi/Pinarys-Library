@@ -12,8 +12,10 @@
     ],
     "java.configuration.updateBuildConfiguration": "disabled",
     "cSpell.ignoreWords": [
+        "lefthand",
         "model",
         "pinarys",
-        "provider"
+        "provider",
+        "thirdperson"
     ]
 }
