@@ -34,7 +34,7 @@ public abstract class PinarysModelProvider implements IDataProvider {
 
     private JsonObject blockBases = new JsonObject();
 
-    public List<JsonElement> simpleLayeredBlock(String name, List<String> textures, String modid, String particle) {
+    public List<JsonElement> simpleLayeredBlock(String name, List<String> textures, String particle) {
         List<JsonElement> jsonElements = new ArrayList<>();
 
         List<Elements> elements = new ArrayList<>();
@@ -117,7 +117,7 @@ public abstract class PinarysModelProvider implements IDataProvider {
         return jsonElements;
     }
 
-    public List<JsonElement> simpleLayeredSlab(String name, List<String> textures, String modid, String particle) {
+    public List<JsonElement> simpleLayeredSlab(String name, List<String> textures, String particle) {
         List<JsonElement> jsonElements = new ArrayList<>();
 
         Integer[] fromTop = {0, 8, 0};
@@ -214,7 +214,7 @@ public abstract class PinarysModelProvider implements IDataProvider {
         return jsonElements;
     }
 
-    public List<JsonElement> simpleLayeredStairs(String name, List<String> textures, String modid, String particle) {
+    public List<JsonElement> simpleLayeredStairs(String name, List<String> textures, String particle) {
         List<JsonElement> jsonElements = new ArrayList<>();
 
         // Stairs elements' from and to
@@ -297,6 +297,8 @@ public abstract class PinarysModelProvider implements IDataProvider {
             jsonElements.add(outerStairsElement);
 
             System.out.println("Made Stairs Bases");
+
+            blockBases.addProperty(baseName + "layer_stair", true);
         } else {
             jsonElements.add(null);
 
@@ -336,6 +338,119 @@ public abstract class PinarysModelProvider implements IDataProvider {
                     jsonElements.add(outerStairsElement);
 
                     System.out.println("Made stair models");
+                }
+            }
+        }
+        return jsonElements;
+    }
+
+    public List<JsonElement> simpleLayeredWall(String name, List<String> textures, String particle) {
+        List<JsonElement> jsonElements = new ArrayList<>();
+
+        Integer[] wallPostFrom = {4, 0, 4};
+        Integer[] wallPostTo = {12, 16, 12};
+
+        Integer[] wallSideFrom = {5, 0, 0};
+        Integer[] wallSideTo = {11, 14, 8};
+
+        Integer[] wallTallFrom = {5, 0, 0};
+        Integer[] wallTallTo = {11, 16, 8};
+
+        String baseName = PinarysGeneratorHelper.intToLetters(textures.size());
+
+        List<Elements> wallPostElements = new ArrayList<>();
+        List<Elements> wallSideElements = new ArrayList<>();
+        List<Elements> wallTallElements = new ArrayList<>();
+
+        Integer x = 0;
+        if (blockBases.get(baseName + "layer_wall") == null) {
+            for (@SuppressWarnings("unused")
+            String texture : textures) {
+                if (x == 0) {
+                    Side side = new Side("#sourceblock");
+
+                    Faces sourceblock = new Faces(side);
+
+                    Elements wallPostElement = new Elements(wallPostFrom, wallPostTo, sourceblock);
+                    Elements wallSideElement = new Elements(wallSideFrom, wallSideTo, sourceblock);
+                    Elements wallTallElement = new Elements(wallTallFrom, wallTallTo, sourceblock);
+
+                    wallPostElements.add(wallPostElement);
+                    wallSideElements.add(wallSideElement);
+                    wallTallElements.add(wallTallElement);
+
+                    x++;
+                } else {
+                    String xString = PinarysGeneratorHelper.intToLetters(x);
+
+                    Side side = new Side("#overlay" + xString);
+
+                    Faces overlay = new Faces(side);
+
+                    Elements wallPostElement = new Elements(wallPostFrom, wallPostTo, overlay);
+                    Elements wallSideElement = new Elements(wallSideFrom, wallSideTo, overlay);
+                    Elements wallTallElement = new Elements(wallTallFrom, wallTallTo, overlay);
+
+                    wallPostElements.add(wallPostElement);
+                    wallSideElements.add(wallSideElement);
+                    wallTallElements.add(wallTallElement);
+
+                    x++;
+                }
+            }
+            BlockModel wallPostBase = new BlockModel("block/block", wallPostElements, baseName + "_layered_wall_post");
+            BlockModel wallSideBase = new BlockModel("block/block", wallSideElements, baseName + "_layered_wall_side");
+            BlockModel wallTallBase = new BlockModel("block/block", wallTallElements, baseName + "_layered_wall_side_tall");
+
+            JsonElement wallPostElement = gson.toJsonTree(wallPostBase);
+            JsonElement wallSideElement = gson.toJsonTree(wallSideBase);
+            JsonElement wallTallElement = gson.toJsonTree(wallTallBase);
+
+            jsonElements.add(wallPostElement);
+            jsonElements.add(wallSideElement);
+            jsonElements.add(wallTallElement);
+
+            System.out.println("Made wall bases");
+        } else {
+            jsonElements.add(null);
+
+            System.out.println("Wall bases were already made!");
+        }
+        x = 0;
+
+        JsonObject innerJsonTextures = new JsonObject();
+
+        for (String texture : textures) {
+            if (x == 0) {
+                x++;
+            } else {
+                String xString = PinarysGeneratorHelper.intToLetters(x);
+
+                BlockModel wallPostModel = new BlockModel(modid + ":block/" + baseName + "_layered_wall_post", name + "_post");
+                BlockModel wallSideModel = new BlockModel(modid + ":block/" + baseName + "_layered_wall_side", name + "_side");
+                BlockModel wallTallModel = new BlockModel(modid + ":block/" + baseName + "_layered_wall_side_tall", name + "_side_tall");
+
+                JsonElement wallPostElement = gson.toJsonTree(wallPostModel);
+                JsonElement wallSideElement = gson.toJsonTree(wallSideModel);
+                JsonElement wallTallElement = gson.toJsonTree(wallTallModel);
+
+                innerJsonTextures.addProperty("overlay" + xString, modid + ":block/" + texture);
+
+                x++;
+
+                if (x == textures.size()) {
+                    innerJsonTextures.addProperty("sourceblock", modid + ":block/" + textures.get(0));
+                    innerJsonTextures.addProperty("particle", modid + ":block/" + particle);
+
+                    wallPostElement.getAsJsonObject().add("textures", innerJsonTextures);
+                    wallSideElement.getAsJsonObject().add("textures", innerJsonTextures);
+                    wallTallElement.getAsJsonObject().add("textures", innerJsonTextures);
+
+                    jsonElements.add(wallPostElement);
+                    jsonElements.add(wallSideElement);
+                    jsonElements.add(wallTallElement);
+
+                    System.out.println("Made wall models");
                 }
             }
         }
