@@ -86,3 +86,12 @@ public class ModModelProvider extends PinarysModelProvider {
 ### Adds:
 A function for generating stair models with theoretically infinite layers.
 It works the same way as the other functions and has the name `simpleLayeredStairs()`.
+## v1.0.5
+### Adds:
+A function for generating wall models with theoretically  infinite layers.
+It works the same way as the other model generating functions and has the name `simpleLayeredWall()`
+### Bug Fixes
+Stair model generator will no longer try to generate base models more than once.
+
+### Changes
+You no longer need to provide a modid for the model functions. 

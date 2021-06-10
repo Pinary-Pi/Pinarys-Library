@@ -36,7 +36,7 @@ repositories {
 ```
 And in the dependencies
 ```gradle
-compile fg.deobf('net.Pinary_Pi.pinaryslib:pinarys-library:1.0.4') {
+compile fg.deobf('net.Pinary_Pi.pinaryslib:pinarys-library:1.0.5') {
         exclude module: "forge"
     }
 ```
