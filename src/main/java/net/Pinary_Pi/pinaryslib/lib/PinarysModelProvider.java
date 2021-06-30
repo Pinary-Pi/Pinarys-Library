@@ -498,21 +498,3 @@ public abstract class PinarysModelProvider implements IDataProvider {
         return texturesList;
     }
 }
-
-/* 
-
-Receive layerCount convert to string for concatenation with file name. 
-Assumption: 2,147,483,647 > layerCount > 0 
-
-Example 10 = ba www.ba.com 
-String layerCountName = ""
-while layerCount > 9 do {
-    layerCountName = layerCountName + (char)((layerCount mod 10) + 97)
-    layerCount = (int)(layerCount/10)
-} 
-
-loop
-layerCountName = char(layerCount + 97) + layerCountName;
-
-
-*/

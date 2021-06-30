@@ -6,6 +6,8 @@
         "examplemod",
         "modid",
         "modloading",
+        "mulitpart",
+        "multiparts",
         "pinaryslib",
         "sourceblock",
         "tokenread"
