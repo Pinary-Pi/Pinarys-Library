@@ -95,3 +95,9 @@ Stair model generator will no longer try to generate base models more than once.
 
 ### Changes
 You no longer need to provide a modid for the model functions. 
+
+## v1.1.0
+### Adds:
+You can now generate blockstates!
+
+Java documentation has also been added, so I will no longer show examples in the changelog.
