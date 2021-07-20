@@ -34,6 +34,14 @@ public abstract class PinarysModelProvider implements IDataProvider {
 
     private JsonObject blockBases = new JsonObject();
 
+    /**
+     * Generates a block model with theoretically infinite layers 
+     * 
+     * @param name a {@link String} for the name of the file
+     * @param textures a {@link List} of {@link Strings} of which for each of them a layer of the model will be made 
+     * @param particle a {@link String} for the resource location of the particle texture which does assume "modid:block/particle"
+     * @return
+     */
     public List<JsonElement> simpleLayeredBlock(String name, List<String> textures, String particle) {
         List<JsonElement> jsonElements = new ArrayList<>();
 
@@ -117,6 +125,14 @@ public abstract class PinarysModelProvider implements IDataProvider {
         return jsonElements;
     }
 
+    /**
+     * Generates a slab model with theoretically infinite layers 
+     * 
+     * @param name a {@link String} for the name of the file
+     * @param textures a {@link List} of {@link Strings} of which for each of them a layer of the model will be made 
+     * @param particle a {@link String} for the resource location of the particle texture which does assume "modid:block/particle"
+     * @return
+     */
     public List<JsonElement> simpleLayeredSlab(String name, List<String> textures, String particle) {
         List<JsonElement> jsonElements = new ArrayList<>();
 
@@ -214,6 +230,14 @@ public abstract class PinarysModelProvider implements IDataProvider {
         return jsonElements;
     }
 
+    /**
+     * Generates a stair model with theoretically infinite layers 
+     * 
+     * @param name a {@link String} for the name of the file
+     * @param textures a {@link List} of {@link Strings} of which for each of them a layer of the model will be made 
+     * @param particle a {@link String} for the resource location of the particle texture which does assume "modid:block/particle"
+     * @return
+     */
     public List<JsonElement> simpleLayeredStairs(String name, List<String> textures, String particle) {
         List<JsonElement> jsonElements = new ArrayList<>();
 
@@ -344,6 +368,14 @@ public abstract class PinarysModelProvider implements IDataProvider {
         return jsonElements;
     }
 
+    /**
+     * Generates a wall model with theoretically infinite layers 
+     * 
+     * @param name a {@link String} for the name of the file
+     * @param textures a {@link List} of {@link Strings} of which for each of them a layer of the model will be made 
+     * @param particle a {@link String} for the resource location of the particle texture which does assume "modid:block/particle"
+     * @return
+     */
     public List<JsonElement> simpleLayeredWall(String name, List<String> textures, String particle) {
         List<JsonElement> jsonElements = new ArrayList<>();
 
@@ -462,6 +494,10 @@ public abstract class PinarysModelProvider implements IDataProvider {
         return "Pinary's Block Models: " + modid;
     }
 
+    /**
+     * <a href="https://gist.github.com/Pinary-Pi/a5945f387d03750d77b7d58fdfb0e9fe">Here</a>
+     * is an example of how to use the model provider.
+     */
     protected abstract List<JsonElement>[] registerModels();
 
     private void saveModels(List<JsonElement>[] registeredModels, DirectoryCache cache) {
@@ -488,6 +524,13 @@ public abstract class PinarysModelProvider implements IDataProvider {
         saveModels(registerModels(), cache);
     }
 
+    /**
+     * Works excellently for giving the model functions
+     * the textures they need
+     * 
+     * @param textures "string_1", "string_2 ...
+     * @return {@link List} of {@link String}s
+     */
     public List<String> textures(String ... textures) {
         List<String> texturesList = new ArrayList<>();
 
