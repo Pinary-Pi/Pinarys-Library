@@ -212,7 +212,7 @@ public abstract class PinarysBlockstateProvider implements IDataProvider {
      * are block_name, block_name_inner, block_name_outer
      * 
      * @author <a href="https://github.com/Pinary-Pi/">Pinary-Pi</a>
-     * @param stair a {@link StairsBlocks} used to get the name of the block
+     * @param stair a {@link StairsBlock} used to get the name of the block
      * @return a {@link Blockstate} used by the data generator to generate blockstate files
      */
     public Blockstate simpleStair(StairsBlock stair) {
@@ -439,7 +439,7 @@ public abstract class PinarysBlockstateProvider implements IDataProvider {
      * "_outer" added
      * 
      * @author <a href="https://github.com/Pinary-Pi/">Pinary-Pi</a>
-     * @param stair a {@link StairsBlocks} used to get the name of the block
+     * @param stair a {@link StairsBlock} used to get the name of the block
      * @param model a {@link String}, must include namespace and path, so "modid:block/a_model"
      * @return a {@link Blockstate} used by the data generator to generate blockstate files
      */
